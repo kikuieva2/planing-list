@@ -1,0 +1,92 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.header__content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3.5em;
+  flex-direction: column;
+  background-color: pink;
+  border-radius: 2em;
+  max-width: 800px;
+}
+
+.header__input__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.header__header {
+  text-align: center;
+  margin-top: 1.3em;
+  margin-right: 0.7em;
+  margin-bottom: 1.8em;
+}
+
+.header__input {
+  margin-top: 2em;
+  padding: 0.3em;
+  align-self: center;
+  justify-self: center;
+  margin-right: 0.6em;
+  margin-bottom: 0.5em;
+  border-radius: 2em;
+  border: 1px solid red;
+  color: black;
+}
+
+.header__input:focus {
+  background-color: lightpink;
+}
+
+.header__list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+}
+
+.completed {
+  color: gray;
+  text-decoration: line-through;
+}
+
+.header__btn {
+  color: black;
+  padding: 0.5em;
+  margin-top: 1.5em;
+  margin-left: 0.7em;
+  border-radius: 1em;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.header__second__input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.header__input__header {
+  margin-top: 1.3em;
+  margin-right: 2.2em;
+  margin-bottom: 1.8em;
+}
+
+.header__sec__btn {
+  margin-bottom: 2em;
+  border-radius: 2em;
+  color: black;
+  padding: 0.5em;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}/*# sourceMappingURL=styles.css.map */
