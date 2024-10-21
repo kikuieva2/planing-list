@@ -1,47 +1,60 @@
 const input = document.querySelector('.header__input');
-const headerList = document.querySelector('.header__list');
-const headerItems = document.querySelector('.header__item');
+const headerList = document.querySelectorAll('.header__list');
 const button = document.querySelector('.header__btn');
 const secButton = document.querySelector('.header__sec__btn');
 const noTasks = document.querySelector('.header__this');
 
 document.addEventListener('DOMContentLoaded', loadTasksFromLocalStorage);
-updateTaskState();
-button.addEventListener('click',function(){
-if(input.value !==''){
-const newTask = document.createElement('li');
-const taskValue = input.value.trim();
-newTask.textContent = taskValue;
-const newCheckbox = document.createElement('input');
-newCheckbox.type = 'checkbox';
-newCheckbox.disabled = false;
-newTask.prepend(newCheckbox);
-newCheckbox.addEventListener('change',function(){
-    if(newCheckbox.checked){
-        newTask.style.textDecoration = 'line-through';
-    }else{
-        newTask.style.textDecoration = 'none';
-    }
-})
-headerList.appendChild(newTask);
-input.value = '';
-input.focus();
-    }
-})
-function saveTasksToLocalStorage() {
-    const tasks = [];
-    headerList.querySelectorAll('li').forEach(task => {
-        const taskText = task.textContent;
-        const isChecked = task.querySelector('input').checked;
-        tasks.push({ text: taskText, completed: isChecked });
-    });
 
-    localStorage.setItem('tasks', JSON.stringify(tasks)); 
+button.addEventListener('click', function () {
+	if (input.value.trim() !== '') {
+		addTask(input.value.trim(), false);
+		input.value = '';
+		input.focus();
+	}
+});
+
+secButton.addEventListener('click', function () {
+	headerList.innerHTML = '';
+	saveTasksToLocalStorage();
+	secButton.disabled = true;
+	noTasks.style.display = 'block';
+});
+
+function addTask(text, completed) {
+	const newTask = document.createElement('li');
+	newTask.textContent = text;
+
+	const newCheckbox = document.createElement('input');
+	newCheckbox.type = 'checkbox';
+	newCheckbox.checked = completed;
+	newTask.prepend(newCheckbox);
+
+	newTask.style.textDecoration = completed ? 'line-through' : 'none';
+
+	newCheckbox.addEventListener('change', function () {
+		newTask.style.textDecoration = newCheckbox.checked
+			? 'line-through'
+			: 'none';
+		saveTasksToLocalStorage();
+	});
+
+	headerList.appendChild(newTask);
+	saveTasksToLocalStorage();
 }
-secButton.disabled = false;
-noTasks.style.display = 'none'
-secButton.addEventListener('click', function(){
-    headerList.innerHTML = '';
-    secButton.disabled = true;
-    noTasks.style.display = 'block'
-})
+
+function saveTasksToLocalStorage() {
+	const tasks = Array.from(headerList.querySelectorAll('li')).map((task) => {
+		const text = task.childNodes[1]?.nodeValue.trim();
+		const completed = task.querySelector('input').checked;
+		return { text, completed };
+	});
+	localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function loadTasksFromLocalStorage() {
+	const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+	tasks.forEach(({ text, completed }) => addTask(text, completed));
+	secButton.disabled = tasks.length === 0;
+	noTasks.style.display = tasks.length === 0 ? 'block' : 'none';
+}
